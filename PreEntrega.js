@@ -9,10 +9,15 @@ let confirmarCompra = "";
 let cantidadEntradas = "";
 let nombreUsuario = "";
 let lista_entradas = [];
+let lista_eventos = [];
+let carrito = [];
 
 
 class Evento {
-    constructor (nombre, fecha, horario, djs, precio_entrada, stock_entrada, parking, precio_parking, stock_parking, direccion) {
+    constructor (id, id_carrito, flyer, nombre, fecha, horario, djs, precio_entrada, stock_entrada, parking, precio_parking, stock_parking, direccion) {
+        this.id = id, 
+        this.id_carrito = id_carrito,
+        this.flyer = flyer,
         this.nombre = nombre;
         this.fecha = fecha;
         this.horario = horario;
@@ -24,6 +29,7 @@ class Evento {
         this.stock_parking = parseInt(stock_parking);
         this.direccion = direccion;
     }
+
 
     get_stock_entradas() {
         if(this.stock_entrada <= 0) {
@@ -55,15 +61,139 @@ class Entradas {
     }
 }
 
-const evento1 = new Evento ("Key Conference", "25/08/2023", "23:00 a 07:00", ["Adam Beyer", "Camelphat", "Gabriel Gil"], 1500, 4000, true, 250, 300, "Av.Wilson Ferreira Aldunate 7201, Ciudad de la Costa, Canelones");
-const evento2 = new Evento ("Phonotheque", "03/07/2023", "23:59 a 10:00", ["DJ Koolt", "Manuel Jelen", "Michele", "Muten"], 800, 200, false, 0, 0, "Piedra Alta 1781, Cordón, Montevideo");
-const evento3 = new Evento ("COCOON", "29/04/2023", "23:00 a 08:00", ["Enrico Sangiuiliano", "Sven Väth", "Phoro"], 1800, 4000, true, 250, 300, "Av.Wilson Ferreira Aldunate 7201, Ciudad de la Costa, Canelones"); 
+const evento1 = new Evento ("1", "C1", "img/evento-01-flyer.png","COCOON", "29/04/2023", "23:00 a 08:00", ["Enrico Sangiuiliano", "Sven Väth", "Phoro"], 1800, 4000, true, 250, 300, "Av.Wilson Ferreira Aldunate 7201, Ciudad de la Costa, Canelones");
+const evento2 = new Evento ("2", "C2", "img/evento-02-flyer.png","MUSIC CONTENT E01", "18/03/23", "23:00 a 07.00", ["Jay Lumen", "Brian Gross", "SPECTRUM DJs"], 1200, 1500, false, 0, 0, "Río Branco 1627, Centro, Montevideo");
+const evento3 = new Evento ("3", "C3", "img/evento-03-flyer.png","MOTION", "01/04/2023", "23:00 a 08:00", ["Jorge Savoretti", "Alex Font", "Indra"], 1800, 2500, true, 300, 100, "Ex Tequila, Ruta 10, La Barra, Maldonado"); 
+const evento4 = new Evento ("4", "C4", "img/evento-04-flyer.png","Phonotheque", "12/02/2022", "22:00 a 06:00", ["Manuel Jelen", "Emilio B2B Kino", "Christian"], 1000, 500, false, 0, 0, "Rambla Pte. Wilson 2133, Parque Rodó, Montevideo"); 
+
+
+lista_eventos.push(evento1, evento2, evento3, evento4);
+
+const eventosContenedor = document.getElementById('eventos');
+
+function renderizarEventos(evento) {
+    const article = document.createElement('article');
+    article.className = 'eventoCard';
+    article.dataset.evento = evento.id;
+
+    const flyer = document.createElement('img');
+    const fechaEvento = document.createElement('h5');
+    const nombreEvento = document.createElement('h3');
+    const direccionEvento = document.createElement('p');
+    const precioEvento = document.createElement('h5');
+    const comprar = document.createElement('button');
+
+    flyer.src = evento.flyer;
+    flyer.alt = evento.nombre;
+    fechaEvento.textContent = evento.fecha;
+    nombreEvento.textContent = evento.nombre;
+    direccionEvento.textContent = evento.direccion;
+    precioEvento.textContent = evento.precio_entrada;
+    comprar.textContent = 'COMPRAR';
+    comprar.className = 'btnComprar';
+    comprar.addEventListener("click", agregarAlCarrito);
+
+    
+    article.appendChild(flyer);
+    article.appendChild(fechaEvento);
+    article.appendChild(nombreEvento);
+    article.appendChild(direccionEvento);
+    article.appendChild(precioEvento);
+    article.appendChild(comprar);
+
+    eventosContenedor.appendChild(article);
+}
+
+lista_eventos.forEach(renderizarEventos);
+
+
+function agregarAlCarrito(e) {
+    const eventoABuscar = e.target.parentNode.dataset.evento;
+    const eventoAAgregar = lista_eventos.find(Evento => Evento.id == eventoABuscar);
+    if (carrito.includes(eventoAAgregar)) {
+        alert("Ya agregaste este evento al carrito");
+    }
+    else {
+        carrito.push(eventoAAgregar);
+    }
+    carritoContenedor.innerHTML = "";
+    carrito.forEach(renderizarCarrito);
+} 
+
+
+function borrarProductoCarrito(e) {
+    const buscarItemCarritoEliminar = e.target.parentNode.parentNode.parentNode.dataset.itemCarrito;
+    const itemCarritoEliminar = carrito.findIndex(carrito => carrito.id_carrito == buscarItemCarritoEliminar);
+    carrito.splice(itemCarritoEliminar, 1);
+    carritoContenedor.innerHTML = "";
+    carrito.forEach(renderizarCarrito);
+} 
+
+const carritoContenedor = document.getElementById('carritoBody');
+
+function renderizarCarrito(itemCarrito) {
+    const articleCarrito = document.createElement('article');
+    articleCarrito.className = 'itemCarritoContainer';
+    articleCarrito.dataset.itemCarrito = itemCarrito.id_carrito;
+
+    const carritoItemTop = document.createElement('div');
+    const carritoItemCHO = document.createElement('div');
+    const carritoItemCHOEntradas = document.createElement('div');
+    const carritoItemCHOParking = document.createElement('div');
+    const carritoItemCHOErase = document.createElement('div');
+    const carritoItemCHOBottom = document.createElement('div');
+
+    carritoItemTop.className = 'carritoItemTop';
+    carritoItemCHO.className = 'carritoItemCHO';
+    carritoItemCHOEntradas.className = 'carritoItemCHOEntradas';
+    carritoItemCHOParking.className = 'carritoItemCHOParking';
+    carritoItemCHOErase.className = 'carritoItemCHOErase';
+    carritoItemCHOBottom.className = 'carritoItemCHOBottom';
+
+
+    articleCarrito.append(carritoItemTop);
+    articleCarrito.append(carritoItemCHO);
+    carritoItemCHO.append(carritoItemCHOEntradas);
+    carritoItemCHO.append(carritoItemCHOParking);
+    carritoItemCHO.append(carritoItemCHOErase);
+    articleCarrito.append(carritoItemCHOBottom);
+
+    carritoItemTop.innerHTML = `<img src=${itemCarrito.flyer}></img>
+                                <div><h4>${itemCarrito.nombre}</h4>
+                                <h6>${itemCarrito.fecha}</h6></div>`
+    carritoItemCHOEntradas.innerHTML = `<label for="qEntradas">Cantidad<br>entradas</label>
+                                        <input type="number" id="qEntradas" name="qEntradas" min="1">`;
+    if (itemCarrito.parking) {
+        carritoItemCHOParking.innerHTML = `<label for="qParking">Cantidad<br>parking</label>
+                                            <input type="number" id="qParking" name="qParking" min="1">`;
+    }
+    else {
+        carritoItemCHOParking.innerHTML = `<p>Este evento<br>no cuenta<br>con parking</p>`;
+    }
+    carritoItemCHOErase.innerHTML = `<p>BORRAR</p>
+                                     <button class="btnBorrar"><img src="./img/borrar.png"></button>`
+    carritoItemCHOBottom.innerHTML = `<p>subtotal</p>
+                                    <h6>$${itemCarrito.precio_entrada}</h6>`;
+
+    const borrar = articleCarrito.querySelector(".btnBorrar");
+    borrar.addEventListener("click", borrarProductoCarrito);
+                                       
+    carritoContenedor.append(articleCarrito);
+    
+}
+
+
+
+
+
+
+
 
 
 
 // FUNCIONES
 
-function calcularEntradas(cantidadEntradas, eventoAComprar) {
+/* function calcularEntradas(cantidadEntradas, eventoAComprar) {
 
     cantidadEntradas = parseInt(cantidadEntradas);
     let totalEntradas = cantidadEntradas * eventoAComprar.precio_entrada;
@@ -92,12 +222,12 @@ function calcularCupon(cupon, resultadoEntradas) {
 function calcularTotal(resultadoEntradas, resultadoParking, resultadoCupon) {
     totalAPagar = (resultadoEntradas - resultadoCupon) + resultadoParking;
     return totalAPagar
-}
+} */
 
 // COMPRAR ENTRADAS //
 
 
-while (eventoAComprar != "CANCELAR") {
+/* while (eventoAComprar != "CANCELAR") {
 
     eventoAComprar = prompt("Seleccione el número de evento para comprar su entrada: 1 > Key Conference, 2 > Phonotheque, 3 > COCOON o ingrese CANCELAR para salir");
 
@@ -189,3 +319,4 @@ while (eventoAComprar != "CANCELAR") {
 } 
 
 
+ */
