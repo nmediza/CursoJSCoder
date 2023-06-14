@@ -11,6 +11,8 @@ let nombreUsuario = "";
 let lista_entradas = [];
 let lista_eventos = [];
 let carrito = [];
+let carrito_JSON = "";
+let recuperarCarrito = "";
 
 
 class Evento {
@@ -71,6 +73,8 @@ lista_eventos.push(evento1, evento2, evento3, evento4);
 
 const eventosContenedor = document.getElementById('eventos');
 
+
+//Trae todos los elementos del arreglo eventos y los renderiza en pantalla
 function renderizarEventos(evento) {
     const article = document.createElement('article');
     article.className = 'eventoCard';
@@ -104,9 +108,7 @@ function renderizarEventos(evento) {
     eventosContenedor.appendChild(article);
 }
 
-lista_eventos.forEach(renderizarEventos);
-
-
+// Agrega al arreglo carrito los eventos selccionados mediante push, guarda en localstorage y llama a la función renderizar carrito
 function agregarAlCarrito(e) {
     const eventoABuscar = e.target.parentNode.dataset.evento;
     const eventoAAgregar = lista_eventos.find(Evento => Evento.id == eventoABuscar);
@@ -116,21 +118,27 @@ function agregarAlCarrito(e) {
     else {
         carrito.push(eventoAAgregar);
     }
+    carrito_JSON = JSON.stringify(carrito);
+    localStorage.setItem("carrito", carrito_JSON);
     carritoContenedor.innerHTML = "";
     carrito.forEach(renderizarCarrito);
 } 
 
-
+// Borra los eventos del objeto carrito, guarda nuevamente en local y renderiza
 function borrarProductoCarrito(e) {
-    const buscarItemCarritoEliminar = e.target.parentNode.parentNode.parentNode.dataset.itemCarrito;
+    const buscarItemCarritoEliminar = e.target.parentNode.parentNode.parentNode.parentNode.dataset.itemCarrito;
     const itemCarritoEliminar = carrito.findIndex(carrito => carrito.id_carrito == buscarItemCarritoEliminar);
     carrito.splice(itemCarritoEliminar, 1);
+    let carrito_JSON = JSON.stringify(carrito);
+    localStorage.setItem("carrito", carrito_JSON);
     carritoContenedor.innerHTML = "";
     carrito.forEach(renderizarCarrito);
 } 
 
 const carritoContenedor = document.getElementById('carritoBody');
 
+
+//Muestra el carrito en pantalla
 function renderizarCarrito(itemCarrito) {
     const articleCarrito = document.createElement('article');
     articleCarrito.className = 'itemCarritoContainer';
@@ -162,10 +170,10 @@ function renderizarCarrito(itemCarrito) {
                                 <div><h4>${itemCarrito.nombre}</h4>
                                 <h6>${itemCarrito.fecha}</h6></div>`
     carritoItemCHOEntradas.innerHTML = `<label for="qEntradas">Cantidad<br>entradas</label>
-                                        <input type="number" id="qEntradas" name="qEntradas" min="1">`;
+                                        <input type="number" id="qEntradas" class="qEntradas" name="qEntradas" min="1" placeholder="1">`;
     if (itemCarrito.parking) {
         carritoItemCHOParking.innerHTML = `<label for="qParking">Cantidad<br>parking</label>
-                                            <input type="number" id="qParking" name="qParking" min="1">`;
+                                            <input type="number" id="qParking" class="qParking" name="qParking" min="0" placeholder="0">`;
     }
     else {
         carritoItemCHOParking.innerHTML = `<p>Este evento<br>no cuenta<br>con parking</p>`;
@@ -183,24 +191,27 @@ function renderizarCarrito(itemCarrito) {
 }
 
 
+lista_eventos.forEach(renderizarEventos);
 
 
 
+//TRAER EL CARRITO CUANDO SE RECARGA LA PÁGINA PERO NO FUNCIONA
+/* recuperarCarrito = localStorage.getItem("carrito");
+recuperarCarrito = JSON.parse(recuperarCarrito);
+carrito.push(recuperarCarrito);
+carrito.forEach(renderizarCarrito); */
 
 
-
-
-
-// FUNCIONES
+// FUNCIONES DE COMPRA, LAS DEJO COMENTADAS PARA QUE NO INTERFIERAN
 
 /* function calcularEntradas(cantidadEntradas, eventoAComprar) {
 
     cantidadEntradas = parseInt(cantidadEntradas);
     let totalEntradas = cantidadEntradas * eventoAComprar.precio_entrada;
     return totalEntradas
-}
+} */
 
-function calcularParking(cantidadParking, eventoAComprar) {
+/* function calcularParking(cantidadParking, eventoAComprar) {
 
     cantidadParking = parseInt(cantidadParking);
     let totalParking = cantidadParking * eventoAComprar.precio_parking;
