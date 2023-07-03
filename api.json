@@ -1,0 +1,86 @@
+[
+    {
+        "id": 1, 
+        "flyer": "img/evento-01-flyer.png",
+        "title": "COCOON", 
+        "date": "29/04/2023", 
+        "time": "23:00 a 08:00",
+        "price": 1800, 
+        "stock": 4000, 
+        "address": "Av.Wilson Ferreira Aldunate 7201, Ciudad de la Costa, Canelones"
+    },
+    {
+        "id": 2, 
+        "flyer": "img/evento-02-flyer.png",
+        "title": "MUSIC CONTENT E01", 
+        "date": "18/03/23", 
+        "time": "23:00 a 07.00",
+        "price": 1200, 
+        "stock": 1500, 
+        "address": "Río Branco 1627, Centro, Montevideo"
+    },
+    {
+        "id": 3, 
+        "flyer": "img/evento-03-flyer.png",
+        "title": "MOTION", 
+        "date": "01/04/2023", 
+        "time": "23:00 a 08:00",
+        "price": 1800, 
+        "stock": 2500, 
+        "address": "Ex Tequila, Ruta 10, La Barra, Maldonado"
+    },
+    {
+        "id": 4, 
+        "flyer": "img/evento-04-flyer.png",
+        "title": "Phonotheque", 
+        "date": "12/02/2022", 
+        "time": "22:00 a 06:00",
+        "price": 1000, 
+        "stock": 500, 
+        "address": "Rambla Pte. Wilson 2133, Parque Rodó, Montevideo"
+    },
+    {
+        "id": 5, 
+        "flyer": "img/evento-05-flyer.png",
+        "title": "Phonotheque", 
+        "date": "25/06/2022", 
+        "time": "23:00 a 08:00",
+        "price": 1400, 
+        "stock": 1500, 
+        "address": "V3ERLIN"
+    },
+    {
+        "id": 6, 
+        "flyer": "img/evento-06-flyer.png",
+        "title": "Phonotheque", 
+        "date": "03/08/2023", 
+        "time": "23:59 a 09:00",
+        "price": 900, 
+        "stock": 500, 
+        "address": "Miguelete y Piedra Alta, Centro, Montevideo"
+    },
+    {
+        "id": 7, 
+        "flyer": "img/evento-07-flyer.png",
+        "title": "DRUMCODE", 
+        "date": "10/12/2022", 
+        "time": "23:00 a 08:00",
+        "price": 1800, 
+        "stock": 4000, 
+        "address": "Av.Wilson Ferreira Aldunate 7201, Ciudad de la Costa, Canelones"
+    },
+    {
+        "id": 8, 
+        "flyer": "img/evento-08-flyer.png",
+        "title": "La Crew Music", 
+        "date": "10/03/2023", 
+        "time": "23:00 a 08:00",
+        "price": 1500, 
+        "stock": 2000, 
+        "address": "Ex Tequila, Ruta 10, La Barra"
+    }
+]
+
+
+
+
