@@ -1,3 +1,5 @@
+//CONSTANTES
+
 const eventos = document.getElementById('eventos');
 const templateCard = document.getElementById('template-evento-card').content;
 const templateCarrito = document.getElementById('template-carrito-card').content;
@@ -5,6 +7,8 @@ const carritoBody = document.getElementById('carritoBody');
 const carritoFooter = document.getElementById('carritoFooter');
 const fragment = document.createDocumentFragment();
 let carrito = {};
+
+//DOM
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchData()
@@ -22,6 +26,8 @@ carritoBody.addEventListener('click', e => {
     btnAmtUpDown(e)
 })
 
+// FETCH Y API ESTATICA
+
 const fetchData = async () => {
     try {
         const respuesta = await fetch('api.json')
@@ -31,6 +37,8 @@ const fetchData = async () => {
         console.log(error)
     }
 }
+
+// Renderizar todos los eventos de la api en la pantalla
 
 const renderizarCards = data => {
     data.forEach(evento => {
@@ -135,8 +143,21 @@ const renderizarCarritoFooter = () => {
         carrito = {}
         renderizarCarrito()
     })
+    const btnBuyCarrito = document.getElementById('btn-buy-carrito')
+    btnBuyCarrito.addEventListener('click', () => {
+        Swal.fire({
+            title: "Gracias por tu compra",
+            background: "#212529",
+            color: "white",
+            fontFamily: "Montserrat', sans-serif"
+        })
+        carrito = {}
+        renderizarCarrito()
+    })
     } 
 }
+
+// carrito
 
 const btnAmtUpDown = e => {
     console.log(e.target)
